@@ -1,0 +1,65 @@
+import pathlib
+import random
+from pathlib import Path
+
+
+class ProgramClass():
+    def __init__(self, groesse_x, groesse_y):
+        self.datafield = []
+        self.groesse_x = groesse_x
+        self.groesse_y = groesse_y
+
+    def get_datafield(self):
+        return self.datafield
+
+    def fill_datafield(self):
+        for j in range(self.groesse_y):
+            lst = []
+            for i in range(self.groesse_x):
+                lst.append(random.random())
+            self.datafield.append(lst)
+        print(self.datafield)
+
+p = ProgramClass(2, 3)
+p.fill_datafield()
+
+class Output():
+    def __init__(self, filepath, filename):
+        self.filepath = pathlib.Path(filepath)
+        self.filename = pathlib.Path(filename)
+        self.check_suffix()
+        # print(self.filename, self.filepath)
+
+    def check_suffix(self):
+        # print(type(self).suffix)
+        print(self.filename.suffix)
+        if not self.filename.suffix == type(self).suffix:
+            print("Suffix korrigiert")
+            self.filename = self.filename.with_suffix(type(self).suffix)
+        print(self.filename)
+    def write_output(self, datafield):
+        raise NotImplementedError
+
+class OutputTXT(Output):
+    suffix = ".txt"
+
+    def write_output(self, datafield):
+
+class OutputCSV(Output):
+    suffix = ".csv"
+
+    def write_output(self, datafield):
+        pass
+
+class OutputPPM(Output):
+    suffix = ".ppm"
+
+    def write_output(self, datafield):
+        pass
+
+out = OutputTXT("output", "test.txt")
+out2 = OutputCSV("output", "test.txt")
+out3 = OutputPPM("output", "test.txt")
+# outputTXT = Path('TikTakToe\OutputFiles\outputTXT.txt')
+# outputTXT.touch(exist_ok=True)
+# f = open(outputTXT)
